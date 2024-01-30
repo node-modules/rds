@@ -1,15 +1,15 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { promisify } from 'node:util';
-import mysql from 'mysql';
-import type { Pool } from 'mysql';
+import mysql, { Pool } from 'mysql2';
+import type { PoolOptions } from 'mysql2';
 import type { PoolConnectionPromisify, RDSClientOptions, TransactionContext, TransactionScope } from './types';
 import { Operator } from './operator';
 import { RDSConnection } from './connection';
 import { RDSTransaction } from './transaction';
-import { RDSPoolConfig } from './PoolConfig';
 import literals from './literals';
 import channels from './channels';
 import type { ConnectionMessage, ConnectionEnqueueMessage } from './channels';
+import { RDSPoolConfig } from './PoolConfig';
 
 interface PoolPromisify extends Omit<Pool, 'query'> {
   query(sql: string): Promise<any>;
@@ -19,6 +19,9 @@ interface PoolPromisify extends Omit<Pool, 'query'> {
   _allConnections: any[];
   _freeConnections: any[];
   _connectionQueue: any[];
+  config: Pool['config'] & {
+    connectionConfig: PoolOptions;
+  };
 }
 
 export class RDSClient extends Operator {
@@ -40,13 +43,7 @@ export class RDSClient extends Operator {
     const { connectionStorage, connectionStorageKey, ...mysqlOptions } = options;
     // get connection options from getConnectionConfig method every time
     if (mysqlOptions.getConnectionConfig) {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const MySQLPool = require('mysql/lib/Pool');
-      this.#pool = new MySQLPool({
-        config: new RDSPoolConfig(mysqlOptions, mysqlOptions.getConnectionConfig),
-      });
-      // override _needsChangeUser to return false
-      (this.#pool as any)._needsChangeUser = () => false;
+      this.#pool = new Pool({ config: new RDSPoolConfig(mysqlOptions, mysqlOptions.getConnectionConfig) } as any) as unknown as PoolPromisify;
     } else {
       this.#pool = mysql.createPool(mysqlOptions) as unknown as PoolPromisify;
     }
@@ -99,13 +96,11 @@ export class RDSClient extends Operator {
   }
 
   get stats() {
-    const acquiringConnections = this.#pool._acquiringConnections.length;
     const allConnections = this.#pool._allConnections.length;
     const freeConnections = this.#pool._freeConnections.length;
     const connectionQueue = this.#pool._connectionQueue.length;
-    const busyConnections = allConnections - freeConnections - acquiringConnections;
+    const busyConnections = allConnections - freeConnections;
     return {
-      acquiringConnections,
       allConnections,
       freeConnections,
       connectionQueue,

@@ -14,3 +14,4 @@ jobs:
     with:
       os: 'ubuntu-latest'
       version: '16.17.0, 16, 18, 20'
+      mysql_version: '5, 8'
