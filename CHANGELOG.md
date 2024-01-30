@@ -1,5 +1,57 @@
 # Changelog
 
+## 1.0.0 (2024-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* In `Promise.all` case, Parallel beginTransactionScope will create isolated transactions.
+* drop Node.js < 16 support
+
+### Features
+
+* add *beginTransactionScope(scope) ([0013a63](https://github.com/node-modules/myrds/commit/0013a6395377ab24b9a4a68a509fa2a049f6d720))
+* add count(table, where) ([6286c46](https://github.com/node-modules/myrds/commit/6286c4696d272fd2b4e1fc80139933360e054ebc))
+* add get(), list(), insert(), update() ([9cae1cb](https://github.com/node-modules/myrds/commit/9cae1cbc10ce6402cbdf8e272d929a0be5899ff4))
+* add options.needFields, default is true ([18e0dea](https://github.com/node-modules/myrds/commit/18e0deab80f399e49db36fced6f31aad8ab3d690))
+* add queryOne api ([#9](https://github.com/node-modules/myrds/issues/9)) ([19fc1bb](https://github.com/node-modules/myrds/commit/19fc1bb64d14533e7432f6bc1a729d40080d28a9))
+* add Transaction ([cfdcf26](https://github.com/node-modules/myrds/commit/cfdcf26cf792ca7b4dab3da1a9b8ced3c6f8899e))
+* add unlock/lock tables ([#97](https://github.com/node-modules/myrds/issues/97)) ([4dc3452](https://github.com/node-modules/myrds/commit/4dc3452a375e0c242084e23c6e5f1cb76f1b647d))
+* add unlock/lock tables ([#97](https://github.com/node-modules/myrds/issues/97)) ([0a61be6](https://github.com/node-modules/myrds/commit/0a61be6048db4df298bfff33c6d23bdcc0119b9a))
+* dynamic retrieval of database connection configuration ([#110](https://github.com/node-modules/myrds/issues/110)) ([f437efb](https://github.com/node-modules/myrds/commit/f437efb439c1770561c1d4dc79318c632e7321d9))
+* export connection and query diagnostics_channel ([#111](https://github.com/node-modules/myrds/issues/111)) ([64aa75d](https://github.com/node-modules/myrds/commit/64aa75d121d63ddae4fa4bd2a6e097773f280dfe))
+* export sqlstring method ([#79](https://github.com/node-modules/myrds/issues/79)) ([2e99ab8](https://github.com/node-modules/myrds/commit/2e99ab8ce872b8482fe2b0a29af51a7a99aaff84))
+* impl with typescript ([#103](https://github.com/node-modules/myrds/issues/103)) ([1cf7814](https://github.com/node-modules/myrds/commit/1cf7814effb2876919e73d331547ecd14caf45f4))
+* promiseify ([#20](https://github.com/node-modules/myrds/issues/20)) ([e4aed30](https://github.com/node-modules/myrds/commit/e4aed300183bd511b9b57412b1e2cd7f5bb0cef8))
+* stats 增加使用中的连接数 ([#115](https://github.com/node-modules/myrds/issues/115)) ([2b152a1](https://github.com/node-modules/myrds/commit/2b152a14b39291665c74910f2fe803d8318843db))
+* support custom query lifecricle ([#104](https://github.com/node-modules/myrds/issues/104)) ([5941c69](https://github.com/node-modules/myrds/commit/5941c69b461ad581aa88c211ee6c60a88d4f5420))
+* support doomed transaction scope on test cases ([#58](https://github.com/node-modules/myrds/issues/58)) ([b227bc1](https://github.com/node-modules/myrds/commit/b227bc12e5c6252264d4761b72f915b73d53c688))
+* support end() ([b3eab93](https://github.com/node-modules/myrds/commit/b3eab93ac7ca5c9fab361765a97c858830de6f63))
+* support insert multi rows ([abb4804](https://github.com/node-modules/myrds/commit/abb4804f91af4a963ee14a00242cf815c7170ecb))
+* support mysql2 ([#1](https://github.com/node-modules/myrds/issues/1)) ([eb9f391](https://github.com/node-modules/myrds/commit/eb9f3919a90bf088c8591e78563496790fefb361))
+* support query(sql, object) ([#12](https://github.com/node-modules/myrds/issues/12)) ([a55e82f](https://github.com/node-modules/myrds/commit/a55e82fabc1a80031a8787425939ec62bd70d52d))
+* support transaction on one request ctx ([#7](https://github.com/node-modules/myrds/issues/7)) ([3bd4e44](https://github.com/node-modules/myrds/commit/3bd4e44bc2b4e5297d9d3df2be04b4342b61e92d))
+* update multiple rows ([#55](https://github.com/node-modules/myrds/issues/55)) ([859d818](https://github.com/node-modules/myrds/commit/859d818d7e327d1ff590d363dfbf3135d8c90454))
+* use AsyncLocalStorage to refactor transaction, to make it more safe ([#108](https://github.com/node-modules/myrds/issues/108)) ([ae327fa](https://github.com/node-modules/myrds/commit/ae327fa5a350b48c4e1f56c2769524c5786e1152))
+* where condition support NULL value ([#60](https://github.com/node-modules/myrds/issues/60)) ([0d4d4ab](https://github.com/node-modules/myrds/commit/0d4d4ab99a7cd655180f22d4d95e3cfef8c8714b))
+* wrap generator function to promise ([#19](https://github.com/node-modules/myrds/issues/19)) ([fe1b4a3](https://github.com/node-modules/myrds/commit/fe1b4a38d761468baf54aa0638d013eaeb842dd2))
+
+
+### Bug Fixes
+
+* `where` with empty object ([#15](https://github.com/node-modules/myrds/issues/15)) ([db0b90e](https://github.com/node-modules/myrds/commit/db0b90ecc48b7c3ea3cf77fd2102efc128009749))
+* add default value now() of `gmt_modified` and `gmt_create` ([#56](https://github.com/node-modules/myrds/issues/56)) ([db6d596](https://github.com/node-modules/myrds/commit/db6d59616f4b5083142bed554fb104c1b5a7c14e))
+* don't export protected methods ([#106](https://github.com/node-modules/myrds/issues/106)) ([b2757df](https://github.com/node-modules/myrds/commit/b2757dffdf76bb74e9fff8a89632d19704b03e4f))
+* don't redefined sqlstring.escape ([#39](https://github.com/node-modules/myrds/issues/39)) ([5ca4489](https://github.com/node-modules/myrds/commit/5ca4489b903923302c81a8c9c8ac94c0afbce819))
+* export pool getter from rds client ([#102](https://github.com/node-modules/myrds/issues/102)) ([4048807](https://github.com/node-modules/myrds/commit/40488070b8bbae853a75ebe7d82a6cff6c8d071d))
+* handle concurrent transaction ([#85](https://github.com/node-modules/myrds/issues/85)) ([d983478](https://github.com/node-modules/myrds/commit/d983478d40203357c71187c94f44ef3afab0b604))
+* move sql to error stack ([#8](https://github.com/node-modules/myrds/issues/8)) ([54349cd](https://github.com/node-modules/myrds/commit/54349cd0ccaf504387e1bc9a0349dd101af32970))
+* mysql type not found ([#109](https://github.com/node-modules/myrds/issues/109)) ([6a9bc45](https://github.com/node-modules/myrds/commit/6a9bc452a8a73f9d697ee0e55f91b823ef153df4))
+* query parameters are not allowed to be included in where ([#67](https://github.com/node-modules/myrds/issues/67)) ([52147de](https://github.com/node-modules/myrds/commit/52147de9d7405b02efcf84ef28a11a4097675972))
+* should export conn property ([#101](https://github.com/node-modules/myrds/issues/101)) ([37afa42](https://github.com/node-modules/myrds/commit/37afa420f3330cbc7a5e6e68da88086339a2a955))
+* support multi lifecricle hooks ([#105](https://github.com/node-modules/myrds/issues/105)) ([53b0a70](https://github.com/node-modules/myrds/commit/53b0a7058e4f3e583dc4610b1d1338014b9f2c15))
+* use master branch ([758877d](https://github.com/node-modules/myrds/commit/758877d9e01df74b9df12c65b7f625275996656b))
+
 ## [6.3.0](https://github.com/node-modules/myrds/v6.2.0...v6.3.0) (2023-07-31)
 
 

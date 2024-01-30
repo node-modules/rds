@@ -1,6 +1,6 @@
 {
   "name": "myrds",
-  "version": "7.0.0",
+  "version": "1.0.0",
   "description": "My RDS Client",
   "main": "lib/client.js",
   "types": "lib/client.d.ts",
