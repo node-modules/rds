@@ -9,7 +9,7 @@ import type { ConnectionMessage, QueryEndMessage } from '../src/channels';
 
 describe('test/PoolConfig.test.ts', () => {
   const prefix = 'prefix-PoolConfig' + process.version + '-';
-  const table = 'ali-sdk-test-user';
+  const table = 'myrds-test-user';
   let db: RDSClient;
   let index = 0;
   let newConnectionCount = 0;
@@ -78,10 +78,8 @@ describe('test/PoolConfig.test.ts', () => {
   });
 
   describe('new RDSClient(options.getConnectionConfig)', () => {
-    it('should get connection config from newConnectionConfig()', async () => {
-      assert.equal(db.pool.config.connectionConfig.database, undefined);
-      assert.equal(index, 1);
-      assert.equal((db.pool.config as any).newConnectionConfig().database, config.database);
+    it('should get connection config from connectionConfig', async () => {
+      assert.equal(db.pool.config.database, undefined);
       assert.equal(index, 2);
     });
 

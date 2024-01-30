@@ -328,7 +328,7 @@ export abstract class Operator {
      *  {id: 3, name: 'fengmk23', email: 'm@fengmk23.com'},
      * ])
      *
-     * UPDATE `ali-sdk-test-user` SET
+     * UPDATE `myrds-test-user` SET
      *  `name` =
      *    CASE
      *      WHEN  `id` = 1 THEN 'fengmk21'
