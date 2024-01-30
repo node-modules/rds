@@ -2,10 +2,10 @@ name: CI
 
 on:
   push:
-    branches: [ master, 4.x ]
+    branches: [ master ]
 
   pull_request:
-    branches: [ master, 4.x ]
+    branches: [ master ]
 
 jobs:
   Job:
@@ -13,5 +13,5 @@ jobs:
     uses: node-modules/github-actions/.github/workflows/node-test-mysql.yml@master
     with:
       os: 'ubuntu-latest'
-      version: '16.17.0, 16, 18, 20'
+      version: '16, 18, 20'
       mysql_version: '5, 8'

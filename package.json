@@ -1,5 +1,5 @@
 {
-  "name": "myrds",
+  "name": "@eggjs/rds",
   "version": "1.0.0",
   "description": "My RDS Client",
   "main": "lib/client.js",
@@ -30,16 +30,16 @@
     "mm": "^3.3.0",
     "typescript": "^5.1.3"
   },
-  "homepage": "https://github.com/node-modules/myrds",
+  "homepage": "https://github.com/node-modules/rds",
   "repository": {
     "type": "git",
-    "url": "git://github.com/node-modules/myrds.git"
+    "url": "git://github.com/node-modules/rds.git"
   },
   "bugs": {
-    "url": "https://github.com/node-modules/myrds/issues"
+    "url": "https://github.com/node-modules/rds/issues"
   },
   "keywords": [
-    "myrds",
+    "rds",
     "mysql",
     "mysql2"
   ],
@@ -47,5 +47,8 @@
     "node": ">= 16.17.0"
   },
   "author": "fengmk2 <fengmk2@gmail.com> (https://github.com/fengmk2)",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
