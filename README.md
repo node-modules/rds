@@ -1,18 +1,18 @@
-# myrds
+# @eggjs/rds
 
 [![NPM version][npm-image]][npm-url]
-[![Node.js CI](https://github.com/node-modules/myrds/actions/workflows/nodejs.yml/badge.svg)](https://github.com/node-modules/myrds/actions/workflows/nodejs.yml)
+[![Node.js CI](https://github.com/node-modules/rds/actions/workflows/nodejs.yml/badge.svg)](https://github.com/node-modules/rds/actions/workflows/nodejs.yml)
 [![Test coverage][codecov-image]][codecov-url]
 [![npm download][download-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/myrds.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/myrds
-[codecov-image]: https://codecov.io/github/node-modules/myrds/coverage.svg?branch=master
-[codecov-url]: https://codecov.io/github/node-modules/myrds?branch=master
-[download-image]: https://img.shields.io/npm/dm/myrds.svg?style=flat-square
-[download-url]: https://npmjs.org/package/myrds
+[npm-image]: https://img.shields.io/npm/v/@eggjs/rds.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@eggjs/rds
+[codecov-image]: https://codecov.io/github/node-modules/rds/coverage.svg?branch=master
+[codecov-url]: https://codecov.io/github/node-modules/rds?branch=master
+[download-image]: https://img.shields.io/npm/dm/@eggjs/rds.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@eggjs/rds
 
-MY RDS client.
+A RDS client.
 RDS, Relational Database Service. Equal to well know Amazon [RDS](http://aws.amazon.com/rds/).
 
 Support `MySQL` protocol only.
@@ -22,7 +22,7 @@ Support `MySQL` protocol only.
 ### Create RDS instance
 
 ```ts
-import { RDSClient } from 'myrds';
+import { RDSClient } from '@eggjs/rds';
 
 const db = new RDSClient({
   host: 'your-rds-address.mysql.rds.aliyuncs.com',
