@@ -10,6 +10,7 @@ import literals from './literals';
 import channels from './channels';
 import type { ConnectionMessage, ConnectionEnqueueMessage } from './channels';
 import { RDSPoolConfig } from './PoolConfig';
+export * from './types';
 
 interface PoolPromisify extends Omit<Pool, 'query'> {
   query(sql: string): Promise<any>;
