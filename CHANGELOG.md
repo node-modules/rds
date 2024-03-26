@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/node-modules/rds/compare/v1.0.0...v1.0.1) (2024-03-26)
+
+
+### Bug Fixes
+
+* exports types ([#3](https://github.com/node-modules/rds/issues/3)) ([66882d6](https://github.com/node-modules/rds/commit/66882d668a8fc80179fc5935d7d6442ba36a96f1))
+
 ## 1.0.0 (2024-01-30)
 
 
