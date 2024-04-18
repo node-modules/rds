@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/node-modules/rds/compare/v1.0.1...v1.1.0) (2024-04-18)
+
+
+### Features
+
+* auto use transaction in db.query ([#5](https://github.com/node-modules/rds/issues/5)) ([ba7cd37](https://github.com/node-modules/rds/commit/ba7cd3734ddd26a4f52660815d032c11750c0950))
+
 ## [1.0.1](https://github.com/node-modules/rds/compare/v1.0.0...v1.0.1) (2024-03-26)
 
 
