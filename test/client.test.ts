@@ -647,6 +647,42 @@ describe('test/client.test.ts', () => {
       await db1.end();
       await db2.end();
     });
+
+    it('should db.query in transaction scope works', async () => {
+      let querySql: string | undefined;
+      mm(RDSTransaction.prototype, 'query', async (sql: string) => {
+        querySql = sql;
+      });
+      await db.beginTransactionScope(async () => {
+        await db.query(`insert into ??(name, email, gmt_create, gmt_modified)
+            values(?, ?, now(), now())`,
+        [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ]);
+        return db;
+      });
+      assert(querySql);
+    });
+
+    it('should db.query specify conn in transaction scope works', async () => {
+      let transactionQuerySql: string | undefined;
+      let connQuerySql: string | undefined;
+      mm(RDSTransaction.prototype, 'query', async (sql: string) => {
+        transactionQuerySql = sql;
+      });
+      const conn = await db.getConnection();
+      mm(conn, 'query', async (sql: string) => {
+        connQuerySql = sql;
+      });
+      await db.beginTransactionScope(async () => {
+        await db.query(`insert into ??(name, email, gmt_create, gmt_modified)
+            values(?, ?, now(), now())`,
+        [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ], {
+          conn,
+        });
+        return db;
+      });
+      assert(connQuerySql);
+      assert(!transactionQuerySql);
+    });
   });
 
   describe('beginDoomedTransactionScope(scope)', () => {
