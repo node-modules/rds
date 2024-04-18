@@ -93,7 +93,7 @@ export class RDSClient extends Operator {
     if (options?.conn) {
       conn = options.conn;
     } else {
-      let ctx = this.#connectionStorage.getStore();
+      const ctx = this.#connectionStorage.getStore();
       const ctxConn = ctx?.[this.#connectionStorageKey];
       if (ctxConn) {
         conn = ctxConn;

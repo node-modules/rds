@@ -656,7 +656,7 @@ describe('test/client.test.ts', () => {
       await db.beginTransactionScope(async () => {
         await db.query(`insert into ??(name, email, gmt_create, gmt_modified)
             values(?, ?, now(), now())`,
-          [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ]);
+        [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ]);
         return db;
       });
       assert(querySql);
@@ -675,9 +675,9 @@ describe('test/client.test.ts', () => {
       await db.beginTransactionScope(async () => {
         await db.query(`insert into ??(name, email, gmt_create, gmt_modified)
             values(?, ?, now(), now())`,
-          [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ], {
-          conn
-          });
+        [ table, prefix + 'multiple-instance1', prefix + 'm@multiple-instance.com' ], {
+          conn,
+        });
         return db;
       });
       assert(connQuerySql);
