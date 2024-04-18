@@ -25,6 +25,10 @@ interface PoolPromisify extends Omit<Pool, 'query'> {
   };
 }
 
+export interface QueryOptions {
+  conn?: RDSConnection | RDSTransaction;
+}
+
 export class RDSClient extends Operator {
   static get literals() { return literals; }
   static get escape() { return mysql.escape; }
@@ -83,12 +87,28 @@ export class RDSClient extends Operator {
     });
   }
 
-  async query<T = any>(sql: string, values?: object | any[]): Promise<T> {
-    const conn = await this.getConnection();
+  async query<T = any>(sql: string, values?: object | any[], options?: QueryOptions): Promise<T> {
+    let conn: RDSConnection | RDSTransaction;
+    let shouldReleaseConn = false;
+    if (options?.conn) {
+      conn = options.conn;
+    } else {
+      let ctx = this.#connectionStorage.getStore();
+      const ctxConn = ctx?.[this.#connectionStorageKey];
+      if (ctxConn) {
+        conn = ctxConn;
+      } else {
+        conn = await this.getConnection();
+        shouldReleaseConn = true;
+      }
+    }
+
     try {
       return await conn.query(sql, values);
     } finally {
-      conn.release();
+      if (shouldReleaseConn) {
+        (conn as RDSConnection).release();
+      }
     }
   }
 
