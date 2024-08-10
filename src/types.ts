@@ -8,6 +8,7 @@ export interface RDSClientOptions extends PoolOptions {
   connectionStorageKey?: string;
   connectionStorage?: AsyncLocalStorage<Record<PropertyKey, RDSTransaction>>;
   getConnectionConfig?: GetConnectionConfig;
+  poolWaitTimeout?: number;
 }
 
 export interface PoolConnectionPromisify extends Omit<PoolConnection, 'query'> {
