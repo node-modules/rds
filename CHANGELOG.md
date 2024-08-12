@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/node-modules/rds/compare/v1.1.0...v1.2.0) (2024-08-12)
+
+
+### Features
+
+* impl PoolWaitTimeoutError ([#7](https://github.com/node-modules/rds/issues/7)) ([f42012d](https://github.com/node-modules/rds/commit/f42012d1bf7d0b5ab08643a7a0cfcda0eb958c32))
+
 ## [1.1.0](https://github.com/node-modules/rds/compare/v1.0.1...v1.1.0) (2024-04-18)
 
 
