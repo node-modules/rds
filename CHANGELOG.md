@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/node-modules/rds/compare/v1.2.0...v1.2.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* fix mysql2 invalid configuration option poolWaitTimeout ([#8](https://github.com/node-modules/rds/issues/8)) ([7293c2e](https://github.com/node-modules/rds/commit/7293c2e9794099c2c7ae6bf773e38498cd2b22d4))
+
 ## [1.2.0](https://github.com/node-modules/rds/compare/v1.1.0...v1.2.0) (2024-08-12)
 
 

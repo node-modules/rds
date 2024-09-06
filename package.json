@@ -1,6 +1,6 @@
 {
   "name": "@eggjs/rds",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "My RDS Client",
   "main": "lib/client.js",
   "types": "lib/client.d.ts",
