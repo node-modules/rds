@@ -67,7 +67,7 @@ export class RDSClient extends Operator {
   constructor(options: RDSClientOptions) {
     super();
     options.connectTimeout = options.connectTimeout ?? 500;
-    const { connectionStorage, connectionStorageKey, ...mysqlOptions } = options;
+    const { connectionStorage, connectionStorageKey, poolWaitTimeout, ...mysqlOptions } = options;
     // get connection options from getConnectionConfig method every time
     if (mysqlOptions.getConnectionConfig) {
       this.#pool = new Pool({ config: new RDSPoolConfig(mysqlOptions, mysqlOptions.getConnectionConfig) } as any) as unknown as PoolPromisify;
@@ -83,7 +83,7 @@ export class RDSClient extends Operator {
     });
     this.#connectionStorage = connectionStorage || new AsyncLocalStorage();
     this.#connectionStorageKey = connectionStorageKey || RDSClient.#DEFAULT_STORAGE_KEY;
-    this.#poolWaitTimeout = options.poolWaitTimeout ?? 500;
+    this.#poolWaitTimeout = poolWaitTimeout ?? 500;
     // https://github.com/mysqljs/mysql#pool-events
     this.#pool.on('connection', (connection: PoolConnectionPromisify) => {
       channels.connectionNew.publish({
