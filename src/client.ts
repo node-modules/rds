@@ -67,7 +67,7 @@ export class RDSClient extends Operator {
   constructor(options: RDSClientOptions) {
     super();
     options.connectTimeout = options.connectTimeout ?? 500;
-    const { connectionStorage, connectionStorageKey, poolWaitTimeout, ...mysqlOptions } = options;
+    const { connectionStorage, connectionStorageKey, poolWaitTimeout, logging, ...mysqlOptions } = options;
     // get connection options from getConnectionConfig method every time
     if (mysqlOptions.getConnectionConfig) {
       this.#pool = new Pool({ config: new RDSPoolConfig(mysqlOptions, mysqlOptions.getConnectionConfig) } as any) as unknown as PoolPromisify;
@@ -108,6 +108,7 @@ export class RDSClient extends Operator {
         connection,
       } as ConnectionMessage);
     });
+    this.logging = logging;
   }
 
   async query<T = any>(sql: string, values?: object | any[], options?: QueryOptions): Promise<T> {
@@ -177,6 +178,7 @@ export class RDSClient extends Operator {
     try {
       const _conn = await this.getConnectionWithTimeout();
       const conn = new RDSConnection(_conn);
+      conn.setLogging(this.logging);
       if (this.beforeQueryHandlers.length > 0) {
         for (const handler of this.beforeQueryHandlers) {
           conn.beforeQuery(handler);
