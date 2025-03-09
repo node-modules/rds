@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/node-modules/rds/compare/v1.2.1...v1.2.2) (2025-03-09)
+
+
+### Bug Fixes
+
+* add missing sqlstring deps ([#10](https://github.com/node-modules/rds/issues/10)) ([7339921](https://github.com/node-modules/rds/commit/733992139f596352408f465676328d201c3299e8))
+
 ## [1.2.1](https://github.com/node-modules/rds/compare/v1.2.0...v1.2.1) (2024-09-06)
 
 
