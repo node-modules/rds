@@ -433,19 +433,33 @@ const session = new db.literals.Literal('session()');
                   +---------------+
 ```
 
+## For the local dev
+
+Run docker compose to start test mysql service
+
+```bash
+docker compose -f docker-compose.yml up -d
+# if you run the first time, should wait for ~20s to let mysql service init started
+```
+
+Run the unit tests
+
+```bash
+npm test
+```
+
+Stop test mysql service
+
+```bash
+docker compose -f docker-compose.yml down
+```
+
 ## License
 
 [MIT](LICENSE)
 
-<!-- GITCONTRIBUTOR_START -->
-
 ## Contributors
 
-|[<img src="https://avatars.githubusercontent.com/u/156269?v=4" width="100px;"/><br/><sub><b>fengmk2</b></sub>](https://github.com/fengmk2)<br/>|[<img src="https://avatars.githubusercontent.com/u/32174276?v=4" width="100px;"/><br/><sub><b>semantic-release-bot</b></sub>](https://github.com/semantic-release-bot)<br/>|[<img src="https://avatars.githubusercontent.com/u/985607?v=4" width="100px;"/><br/><sub><b>dead-horse</b></sub>](https://github.com/dead-horse)<br/>|[<img src="https://avatars.githubusercontent.com/u/6587734?v=4" width="100px;"/><br/><sub><b>AntiMoron</b></sub>](https://github.com/AntiMoron)<br/>|[<img src="https://avatars.githubusercontent.com/u/9213756?v=4" width="100px;"/><br/><sub><b>gxkl</b></sub>](https://github.com/gxkl)<br/>|[<img src="https://avatars.githubusercontent.com/u/10287125?v=4" width="100px;"/><br/><sub><b>nodejh</b></sub>](https://github.com/nodejh)<br/>|
-| :---: | :---: | :---: | :---: | :---: | :---: |
-|[<img src="https://avatars.githubusercontent.com/u/4192962?v=4" width="100px;"/><br/><sub><b>fangk</b></sub>](https://github.com/fangk)<br/>|[<img src="https://avatars.githubusercontent.com/u/1619030?v=4" width="100px;"/><br/><sub><b>xujihui1985</b></sub>](https://github.com/xujihui1985)<br/>|[<img src="https://avatars.githubusercontent.com/u/1468366?v=4" width="100px;"/><br/><sub><b>csbun</b></sub>](https://github.com/csbun)<br/>|[<img src="https://avatars.githubusercontent.com/u/360661?v=4" width="100px;"/><br/><sub><b>popomore</b></sub>](https://github.com/popomore)<br/>|[<img src="https://avatars.githubusercontent.com/u/12378108?v=4" width="100px;"/><br/><sub><b>hoythan</b></sub>](https://github.com/hoythan)<br/>|[<img src="https://avatars.githubusercontent.com/u/35927028?v=4" width="100px;"/><br/><sub><b>deadhorse123</b></sub>](https://github.com/deadhorse123)<br/>|
-[<img src="https://avatars.githubusercontent.com/u/6897780?v=4" width="100px;"/><br/><sub><b>killagu</b></sub>](https://github.com/killagu)<br/>|[<img src="https://avatars.githubusercontent.com/u/3438038?v=4" width="100px;"/><br/><sub><b>qile222</b></sub>](https://github.com/qile222)<br/>|[<img src="https://avatars.githubusercontent.com/u/566097?v=4" width="100px;"/><br/><sub><b>RaoHai</b></sub>](https://github.com/RaoHai)<br/>
+[![Contributors](https://contrib.rocks/image?repo=node-modules/rds)](https://github.com/node-modules/rds/graphs/contributors)
 
-This project follows the git-contributor [spec](https://github.com/xudafeng/git-contributor), auto updated at `Tue Jan 30 2024 21:16:24 GMT+0800`.
-
-<!-- GITCONTRIBUTOR_END -->
+Made with [contributors-img](https://contrib.rocks).
