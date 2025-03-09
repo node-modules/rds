@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/node-modules/rds/compare/v1.2.2...v1.3.0) (2025-03-09)
+
+
+### Features
+
+* add custom logging ([#122](https://github.com/node-modules/rds/issues/122)) ([#11](https://github.com/node-modules/rds/issues/11)) ([4b97cb0](https://github.com/node-modules/rds/commit/4b97cb0ad6b63d373edc8acdf1cf0167d8525ffe))
+
 ## [1.2.2](https://github.com/node-modules/rds/compare/v1.2.1...v1.2.2) (2025-03-09)
 
 
