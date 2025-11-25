@@ -75,9 +75,6 @@ export abstract class Operator {
 
   async query<T = any>(sql: string, values?: object | any[]): Promise<T> {
     // query(sql, values)
-    if (values) {
-      sql = this.format(sql, values);
-    }
     if (this.beforeQueryHandlers.length > 0) {
       for (const beforeQueryHandler of this.beforeQueryHandlers) {
         const newSql = beforeQueryHandler(sql);
@@ -98,7 +95,7 @@ export abstract class Operator {
       connection: this.#connection,
     } as QueryStartMessage);
     try {
-      rows = await this._query(sql);
+      rows = await this._query(sql, values);
       if (Array.isArray(rows)) {
         debug('[connection#%s] query get %o rows', this.threadId, rows.length);
       } else {
@@ -132,7 +129,7 @@ export abstract class Operator {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async _query(_sql: string): Promise<any> {
+  protected async _query(_sql: string, _values?: object | any[]): Promise<any> {
     throw new Error('SubClass must impl this');
   }
 
