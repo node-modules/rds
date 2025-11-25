@@ -77,7 +77,7 @@ export abstract class Operator {
     // query(sql, values)
     if (this.beforeQueryHandlers.length > 0) {
       for (const beforeQueryHandler of this.beforeQueryHandlers) {
-        const newSql = beforeQueryHandler(sql);
+        const newSql = beforeQueryHandler(sql, values);
         if (newSql) {
           sql = newSql;
         }
@@ -119,7 +119,7 @@ export abstract class Operator {
       } as QueryEndMessage);
       if (this.afterQueryHandlers.length > 0) {
         for (const afterQueryHandler of this.afterQueryHandlers) {
-          afterQueryHandler(sql, rows, duration, lastError);
+          afterQueryHandler(sql, rows, duration, lastError, values);
         }
       }
     }
