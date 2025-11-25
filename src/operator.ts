@@ -92,6 +92,7 @@ export abstract class Operator {
     let lastError: Error | undefined;
     channels.queryStart.publish({
       sql,
+      values,
       connection: this.#connection,
     } as QueryStartMessage);
     try {
@@ -112,6 +113,7 @@ export abstract class Operator {
       channels.queryEnd.publish({
         sql,
         connection: this.#connection,
+        values,
         duration,
         error: lastError,
       } as QueryEndMessage);
