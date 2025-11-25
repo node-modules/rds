@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.0 (2025-11-25)
+
+* feat: use sql params (#14) ([0d1569d](https://github.com/node-modules/rds/commit/0d1569d)), closes [#14](https://github.com/node-modules/rds/issues/14) [hi#level](https://github.com/hi/issues/level)
+* fix: add catch for get conn exception (#13) ([314b425](https://github.com/node-modules/rds/commit/314b425)), closes [#13](https://github.com/node-modules/rds/issues/13)
+* chore: enable auto merge ([a1a801d](https://github.com/node-modules/rds/commit/a1a801d))
+* chore: fix auto release ([8c3e1d4](https://github.com/node-modules/rds/commit/8c3e1d4))
+
 ## [1.3.0](https://github.com/node-modules/rds/compare/v1.2.2...v1.3.0) (2025-03-09)
 
 
