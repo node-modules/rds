@@ -37,7 +37,7 @@ export class RDSConnection extends Operator {
     return await this.conn.query(sql, values);
   }
 
-  async execute<T = any>(sql: string, values?: object | any[]): Promise<T> {
+  async _execute(sql: string, values?: object | any[]) {
     return await this.conn.execute(sql, values);
   }
 
