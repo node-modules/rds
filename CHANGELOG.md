@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.5.0 (2025-12-09)
+
+* feat: implement mysql execute (#15) ([f49ba4b](https://github.com/node-modules/rds/commit/f49ba4b)), closes [#15](https://github.com/node-modules/rds/issues/15) [hi#level](https://github.com/hi/issues/level)
+
 ## 1.4.0 (2025-11-25)
 
 * feat: use sql params (#14) ([0d1569d](https://github.com/node-modules/rds/commit/0d1569d)), closes [#14](https://github.com/node-modules/rds/issues/14) [hi#level](https://github.com/hi/issues/level)
