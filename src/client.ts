@@ -137,6 +137,31 @@ export class RDSClient extends Operator {
     }
   }
 
+  async execute<T = any>(sql: string, values?: object | any[], options?: QueryOptions): Promise<T> {
+    let conn: RDSConnection | RDSTransaction;
+    let shouldReleaseConn = false;
+    if (options?.conn) {
+      conn = options.conn;
+    } else {
+      const ctx = this.#connectionStorage.getStore();
+      const ctxConn = ctx?.[this.#connectionStorageKey];
+      if (ctxConn) {
+        conn = ctxConn;
+      } else {
+        conn = await this.getConnection();
+        shouldReleaseConn = true;
+      }
+    }
+
+    try {
+      return await conn.execute(sql, values);
+    } finally {
+      if (shouldReleaseConn) {
+        (conn as RDSConnection).release();
+      }
+    }
+  }
+
   get pool() {
     return this.#pool;
   }
