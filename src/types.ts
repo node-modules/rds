@@ -12,8 +12,9 @@ export interface RDSClientOptions extends PoolOptions {
   logging?: Logging;
 }
 
-export interface PoolConnectionPromisify extends Omit<PoolConnection, 'query'> {
+export interface PoolConnectionPromisify extends Omit<PoolConnection, 'query' | 'execute'> {
   query(sql: string, values?: any | any[] | { [param: string]: any }): Promise<any>;
+  execute(sql: string, values?: any | any[] | { [param: string]: any }): Promise<any>;
   beginTransaction(): Promise<void>;
   commit(): Promise<void>;
   rollback(): Promise<void>;

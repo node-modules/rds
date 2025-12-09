@@ -1617,4 +1617,96 @@ describe('test/client.test.ts', () => {
     });
 
   });
+
+  describe('execute()', () => {
+    it('should execute sql with parameters', async () => {
+      const result = await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+        [ prefix + 'execute-test', prefix + 'm@execute-test.com' ]);
+      assert.equal(result.affectedRows, 1);
+      assert(result.insertId > 0);
+    });
+
+    it('should execute select query', async () => {
+      await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+        [ prefix + 'execute-select-test', prefix + 'm@execute-select-test.com' ]);
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE email = ?',
+        [ prefix + 'm@execute-select-test.com' ]);
+      assert(Array.isArray(rows));
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].name, prefix + 'execute-select-test');
+    });
+
+    it('should execute in transaction', async () => {
+      const tran = await db.beginTransaction();
+      try {
+        const result = await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+          [ prefix + 'execute-transaction-test', prefix + 'm@execute-transaction-test.com' ],
+          { conn: tran });
+        assert.equal(result.affectedRows, 1);
+        await tran.commit();
+      } catch (err) {
+        await tran.rollback();
+        throw err;
+      }
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE email = ?',
+        [ prefix + 'm@execute-transaction-test.com' ]);
+      assert.equal(rows.length, 1);
+    });
+
+    it('should execute in transaction scope', async () => {
+      await db.beginTransactionScope(async tran => {
+        const result = await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+          [ prefix + 'execute-scope-test', prefix + 'm@execute-scope-test.com' ],
+          { conn: tran });
+        assert.equal(result.affectedRows, 1);
+      });
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE email = ?',
+        [ prefix + 'm@execute-scope-test.com' ]);
+      assert.equal(rows.length, 1);
+    });
+
+    it('should execute with connection', async () => {
+      const conn = await db.getConnection();
+      try {
+        const result = await conn.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+          [ prefix + 'execute-conn-test', prefix + 'm@execute-conn-test.com' ]);
+        assert.equal(result.affectedRows, 1);
+      } finally {
+        conn.release();
+      }
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE email = ?',
+        [ prefix + 'm@execute-conn-test.com' ]);
+      assert.equal(rows.length, 1);
+    });
+
+    it('should execute update query', async () => {
+      await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+        [ prefix + 'execute-update-test', prefix + 'm@execute-update-test.com' ]);
+
+      const result = await db.execute('UPDATE `myrds-test-user` SET email = ? WHERE name = ?',
+        [ prefix + 'm@execute-updated.com', prefix + 'execute-update-test' ]);
+      assert.equal(result.affectedRows, 1);
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE email = ?',
+        [ prefix + 'm@execute-updated.com' ]);
+      assert.equal(rows.length, 1);
+    });
+
+    it('should execute delete query', async () => {
+      await db.execute('INSERT INTO `myrds-test-user` (name, email, gmt_create, gmt_modified) VALUES(?, ?, now(), now())',
+        [ prefix + 'execute-delete-test', prefix + 'm@execute-delete-test.com' ]);
+
+      const result = await db.execute('DELETE FROM `myrds-test-user` WHERE name = ?',
+        [ prefix + 'execute-delete-test' ]);
+      assert.equal(result.affectedRows, 1);
+
+      const rows = await db.execute('SELECT * FROM `myrds-test-user` WHERE name = ?',
+        [ prefix + 'execute-delete-test' ]);
+      assert.equal(rows.length, 0);
+    });
+  });
 });

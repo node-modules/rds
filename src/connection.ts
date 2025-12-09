@@ -16,6 +16,7 @@ export class RDSConnection extends Operator {
     if (!this.conn[kWrapToRDS]) {
       [
         'query',
+        'execute',
         'beginTransaction',
         'commit',
         'rollback',
@@ -34,6 +35,10 @@ export class RDSConnection extends Operator {
 
   async _query(sql: string, values?: object | any[]) {
     return await this.conn.query(sql, values);
+  }
+
+  async _execute(sql: string, values?: object | any[]) {
+    return await this.conn.execute(sql, values);
   }
 
   async beginTransaction() {

@@ -74,7 +74,30 @@ export abstract class Operator {
   }
 
   async query<T = any>(sql: string, values?: object | any[]): Promise<T> {
-    // query(sql, values)
+    return this.#executeWithHooks(sql, values, 'query', this._query.bind(this));
+  }
+
+  async queryOne(sql: string, values?: object | any[]) {
+    const rows = await this.query(sql, values);
+    return rows && rows[0] || null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected async _query(_sql: string, _values?: object | any[]): Promise<any> {
+    throw new Error('SubClass must impl this');
+  }
+
+  async execute<T = any>(sql: string, values?: object | any[]): Promise<T> {
+    return this.#executeWithHooks(sql, values, 'execute', this._execute.bind(this));
+  }
+
+  async #executeWithHooks<T = any>(
+    sql: string,
+    values: object | any[] | undefined,
+    operation: string,
+    executor: (sql: string, values?: object | any[]) => Promise<any>,
+  ): Promise<T> {
+    // 处理前置钩子
     if (this.beforeQueryHandlers.length > 0) {
       for (const beforeQueryHandler of this.beforeQueryHandlers) {
         const newSql = beforeQueryHandler(sql, values);
@@ -83,30 +106,35 @@ export abstract class Operator {
         }
       }
     }
-    debug('[connection#%s] query %o', this.threadId, sql);
+
+    debug('[connection#%s] %s %o', this.threadId, operation, sql);
     if (typeof this.logging === 'function') {
       this.logging(sql, { threadId: this.threadId });
     }
+
     const queryStart = performance.now();
     let rows: any;
     let lastError: Error | undefined;
+
     channels.queryStart.publish({
       sql,
       values,
       connection: this.#connection,
     } as QueryStartMessage);
+
     try {
-      rows = await this._query(sql, values);
+      rows = await executor(sql, values);
+
       if (Array.isArray(rows)) {
-        debug('[connection#%s] query get %o rows', this.threadId, rows.length);
+        debug('[connection#%s] %s get %o rows', this.threadId, operation, rows.length);
       } else {
-        debug('[connection#%s] query result: %o', this.threadId, rows);
+        debug('[connection#%s] %s result: %o', this.threadId, operation, rows);
       }
       return rows;
     } catch (err) {
       lastError = err;
       err.stack = `${err.stack}\n    sql: ${sql}`;
-      debug('[connection#%s] query error: %o', this.threadId, err);
+      debug('[connection#%s] %s error: %o', this.threadId, operation, err);
       throw err;
     } finally {
       const duration = Math.floor((performance.now() - queryStart) * 1000) / 1000;
@@ -117,6 +145,7 @@ export abstract class Operator {
         duration,
         error: lastError,
       } as QueryEndMessage);
+
       if (this.afterQueryHandlers.length > 0) {
         for (const afterQueryHandler of this.afterQueryHandlers) {
           afterQueryHandler(sql, rows, duration, lastError, values);
@@ -125,13 +154,8 @@ export abstract class Operator {
     }
   }
 
-  async queryOne(sql: string, values?: object | any[]) {
-    const rows = await this.query(sql, values);
-    return rows && rows[0] || null;
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected async _query(_sql: string, _values?: object | any[]): Promise<any> {
+  protected async _execute(_sql: string, _values?: object | any[]): Promise<any> {
     throw new Error('SubClass must impl this');
   }
 

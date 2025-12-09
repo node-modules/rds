@@ -41,6 +41,11 @@ export class RDSTransaction extends Operator {
     return await this.conn!._query(sql, values);
   }
 
+  async _execute(sql: string, values?: object | any[]) {
+    this.#check();
+    return await this.conn!._execute(sql, values);
+  }
+
   #check() {
     if (!this.conn) {
       throw new Error('transaction was commit or rollback');

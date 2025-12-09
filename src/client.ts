@@ -79,6 +79,7 @@ export class RDSClient extends Operator {
       'query',
       'getConnection',
       'end',
+      'execute',
     ].forEach(method => {
       this.#pool[method] = promisify(this.#pool[method]);
     });
@@ -113,28 +114,43 @@ export class RDSClient extends Operator {
   }
 
   async query<T = any>(sql: string, values?: object | any[], options?: QueryOptions): Promise<T> {
-    let conn: RDSConnection | RDSTransaction;
-    let shouldReleaseConn = false;
-    if (options?.conn) {
-      conn = options.conn;
-    } else {
-      const ctx = this.#connectionStorage.getStore();
-      const ctxConn = ctx?.[this.#connectionStorageKey];
-      if (ctxConn) {
-        conn = ctxConn;
-      } else {
-        conn = await this.getConnection();
-        shouldReleaseConn = true;
-      }
-    }
+    return this.#executeWithConnection('query', sql, values, options);
+  }
+
+  async execute<T = any>(sql: string, values?: object | any[], options?: QueryOptions): Promise<T> {
+    return this.#executeWithConnection('execute', sql, values, options);
+  }
+
+  async #executeWithConnection<T = any>(
+    method: 'query' | 'execute',
+    sql: string,
+    values?: object | any[],
+    options?: QueryOptions,
+  ): Promise<T> {
+    const { conn, shouldRelease } = await this.#getConnection(options);
 
     try {
-      return await conn.query(sql, values);
+      return await conn[method](sql, values);
     } finally {
-      if (shouldReleaseConn) {
+      if (shouldRelease) {
         (conn as RDSConnection).release();
       }
     }
+  }
+
+  async #getConnection(options?: QueryOptions): Promise<{ conn: RDSConnection | RDSTransaction; shouldRelease: boolean }> {
+    if (options?.conn) {
+      return { conn: options.conn, shouldRelease: false };
+    }
+
+    const ctx = this.#connectionStorage.getStore();
+    const ctxConn = ctx?.[this.#connectionStorageKey];
+    if (ctxConn) {
+      return { conn: ctxConn, shouldRelease: false };
+    }
+
+    const conn = await this.getConnection();
+    return { conn, shouldRelease: true };
   }
 
   get pool() {
